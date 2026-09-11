@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import jwt from "jsonwebtoken";
-import { db } from "./src/db";
+import { db } from "./src/db/index";
 import { profiles, links } from "./src/db/schema";
 import { eq, asc } from "drizzle-orm";
 
