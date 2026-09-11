@@ -120,8 +120,9 @@ async function startServer() {
         profile,
         links: profileLinks.filter((l: any) => l.is_active),
       });
-    } catch (err) {
-      res.status(500).json({ error: "Internal server error" });
+    } catch (err: any) {
+      console.error("API Error (/api/profile):", err);
+      res.status(500).json({ error: "Internal server error", details: err.message });
     }
   });
 
