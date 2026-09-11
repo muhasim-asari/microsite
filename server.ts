@@ -2,8 +2,8 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import jwt from "jsonwebtoken";
-import { db } from "./src/db/index";
-import { profiles, links } from "./src/db/schema";
+import { db } from "./src/db/index.js";
+import { profiles, links } from "./src/db/schema.js";
 import { eq, asc } from "drizzle-orm";
 
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret-key-for-dev";
