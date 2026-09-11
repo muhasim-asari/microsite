@@ -237,23 +237,37 @@ async function startServer() {
 
 
   // --- VITE MIDDLEWARE & STATIC FILES ---
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
+    
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  } else if (!process.env.VERCEL) {
+    // Standard production build (not Vercel)
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
+    
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  return app;
 }
 
-startServer();
+// In Vercel, we need to export the app instance.
+// But since our setup is async (seedDB), we can wrap it or just let Vercel handle it.
+const appPromise = startServer();
+
+export default async function handler(req: any, res: any) {
+  const app = await appPromise;
+  return app(req, res);
+}
