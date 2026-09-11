@@ -1,0 +1,6 @@
+{
+  "name": "Microsite Builder",
+  "description": "A link-in-bio platform for stores like Solar Hijab",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
